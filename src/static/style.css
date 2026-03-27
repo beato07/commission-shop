@@ -1,0 +1,88 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa; /* Светло-серый фон */
+}
+
+#wrapper {
+    display: flex;
+    width: 100%;
+}
+
+#sidebar-wrapper {
+    min-height: 100vh;
+    width: 250px; /* Фиксированная ширина */
+    background-color: #e7f3fe; /* Светло-синий фон */
+    color: #333; /* Темно-серый текст */
+    position: fixed; /* Фиксированное положение */
+}
+
+#sidebar-wrapper .sidebar-heading {
+    padding: 0.875rem 1.25rem;
+    font-size: 1.2rem;
+    color: #007bff; /* Синий текст */
+}
+
+#page-content-wrapper {
+    margin-left: 250px; /* Отступ слева для контента */
+    width: calc(100% - 250px); /* Ширина контента */
+    padding: 20px;
+}
+
+.navbar {
+    background-color: #e7f3fe; /* Светло-синий фон */
+    border-bottom: 1px solid #ddd;
+}
+
+.navbar-brand, .navbar-toggler {
+    color: #007bff; /* Синий текст */
+}
+
+.navbar-toggler {
+    border-color: #007bff; /* Синий цвет границы */
+}
+
+.navbar-nav .nav-item .nav-link {
+    color: #007bff; /* Синий текст */
+}
+
+.navbar-nav .nav-item .nav-link:hover {
+    color: #0056b3; /* Темно-синий текст при наведении */
+}
+
+.container-fluid {
+    padding: 2em;
+}
+
+.btn-primary {
+    background-color: #007bff; /* Синий фон кнопки */
+    border-color: #007bff; /* Синий цвет границы кнопки */
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* Темно-синий фон кнопки при наведении */
+    border-color: #0056b3; /* Темно-синий цвет границы кнопки при наведении */
+}
+
+.btn-secondary {
+    background-color: #6c757d; /* Серый фон кнопки */
+    border-color: #6c757d; /* Серый цвет границы кнопки */
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268; /* Темно-серый фон кнопки при наведении */
+    border-color: #5a6268; /* Темно-серый цвет границы кнопки при наведении */
+}
+
+.btn-danger {
+    background-color: #dc3545; /* Красный фон кнопки */
+    border-color: #dc3545; /* Красный цвет границы кнопки */
+}
+
+.btn-danger:hover {
+    background-color: #c82333; /* Темно-красный фон кнопки при наведении */
+    border-color: #c82333; /* Темно-красный цвет границы кнопки при наведении */
+}
+
+.alert {
+    margin-top: 1em;
+}
