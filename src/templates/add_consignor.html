@@ -1,1 +1,54 @@
-<!--{% extends "base.html" %}-->
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Добавление комитента</h1>
+<form method="POST">
+    <div class="form-group">
+        <label for="first_name">Имя:</label>
+        <input type="text" id="first_name" name="first_name" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="last_name">Фамилия:</label>
+        <input type="text" id="last_name" name="last_name" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="middle_name">Отчество:</label>
+        <input type="text" id="middle_name" name="middle_name" class="form-control">
+    </div>
+    <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="phone_number">Номер телефона:</label>
+        <input type="text" id="phone_number" name="phone_number" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="passport_data">Паспортные данные:</label>
+        <input type="text" id="passport_data" name="passport_data" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="INN">ИНН:</label>
+        <input type="text" id="INN" name="INN" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="sale_id">Продажа:</label>
+        <select id="sale_id" name="sale_id" class="form-control">
+            <option value="">None</option>
+            {% for sale in sales %}
+                <option value="{{ consignor.id }}">{{ sale.sale_date }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="report_id">Отчёт:</label>
+        <select id="report_id" name="report_id" class="form-control">
+            <option value="">None</option>
+            {% for report in reports %}
+                <option value="{{ report.id }}">{{ report.number }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Добавить комитента</button>
+</form>
+{% endblock %}

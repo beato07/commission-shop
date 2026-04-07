@@ -2,4 +2,43 @@
 
 {% block content %}
 <h1>Список комитентов</h1>
+<a href="{{ url_for('add_consignor') }}" class="btn btn-primary mb-3">
+    <i class="fas fa-plus"></i> Добавить комитента
+</a>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Имя</th>
+            <th>Фамилия</th>
+            <th>Отчество</th>
+            <th>Email</th>
+            <th>Номер телефона</th>
+            <th>Паспортные данные</th>
+            <th>ИНН</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for consignor in consignors %}
+        <tr>
+            <td>{{ consignor.first_name }}</td>
+            <td>{{ consignor.last_name }}</td>
+            <td>{{ consignor.middle_name }}</td>
+            <td>{{ consignor.email }}</td>
+            <td>{{ consignor.phone_number }}</td>
+            <td>{{ consignor.passport_data }}</td>
+            <td>{{ consignor.INN }}</td>
+            <td>
+                <a href="{{ url_for('consignor_detail', consignor_id=consignor.id) }}" class="btn btn-primary btn-sm">
+                    <i class="fas fa-eye"></i> Показать
+                </a>
+                <form action="{{ url_for('delete_consignor', consignor_id=consignor.id) }}" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Вы уверены, что хотите удалить сотрудника?');">
+                        <i class="fas fa-trash-alt"></i> Удалить
+                    </button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}
