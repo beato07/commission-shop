@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Отчёт</h1>
+<p><strong>Номер:</strong> {{ report.number }}</p>
+<p><strong>Дата:</strong> {{ report.date }}</p>
+<p><strong>Тип:</strong> {{ report.report_type }}</p>
+<p><strong>Описание:</strong> {{ report.description }}</p>
+{% if consignor %}
+    <p><strong>Комитент:</strong> {{ consignor.last_name }} {{ consignor.first_name }} {{ consignor.middle_name or '' }}</p>
+{% endif %}
+<a href="{{ url_for('consignor_detail', consignor_id=report.consignor_id) }}" class="btn btn-primary">
+    <i class="fas fa-user"></i> Перейти к комитенту
+</a>
+<a href="{{ url_for('reports_list') }}" class="btn btn-secondary">
+    <i class="fas fa-arrow-left"></i> Назад к отчётам
+</a>
+{% endblock %}

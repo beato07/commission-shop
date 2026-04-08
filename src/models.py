@@ -11,8 +11,6 @@ class Consignor(db.Model):
     phone_number = db.Column(db.String(20), nullable=False)  # Номер телефона комитента
     passport_data = db.Column(db.String(50), nullable=False) # Паспортные данные комитента
     INN = db.Column(db.String(50), nullable=False) # ИНН комитента
-    sale_id = db.Column(db.Integer, db.ForeignKey('sale.id')) # Идентификатор продажи
-    report_id = db.Column(db.Integer, db.ForeignKey('report.id')) # Идентификатор отчёта
 
 
 class Product(db.Model):
@@ -43,3 +41,4 @@ class Report(db.Model):
     date = db.Column(db.Date, nullable=False)  # Дата отчета
     report_type = db.Column(db.String(50), nullable=False)  # Тип отчета
     description = db.Column(db.String(200), nullable=False)  # Описание отчета
+    consignor_id = db.Column(db.Integer, db.ForeignKey('consignor.id'), nullable=False) # Идентификатор комитента

@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Add Report</h1>
+<form method="POST" id="reportForm">
+    <div class="form-group">
+        <label for="number">Номер отчёта:</label>
+        <input type="text" id="number" name="number" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="date">Дата:</label>
+        <input type="date" id="date" name="date" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="report_type">Тип отчёта:</label>
+        <input type="text" id="report_type" name="report_type" class="form-control" required>
+    </div>
+    <div class="form-group">
+        <label for="description">Описание:</label>
+        <textarea id="description" name="description" class="form-control" required></textarea>
+    </div>
+    <div class="form-group">
+        <label for="consignor_id">Сотрудник:</label>
+        <select id="consignor_id" name="consignor_id" class="form-control">
+            <option value="">Выбрать комитента</option>
+            {% for consignor in consignors %}
+                <option value="{{ consignor.id }}">
+                    {{ consignor.last_name }} {{ consignor.first_name }} {{ consignor.middle_name or '' }}
+                </option>
+            {% endfor %}
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">Добавить отчёт</button>
+</form>
+{% endblock %}
