@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Продажа</h1>
+<p><strong>Дата продажи:</strong> {{ sale.sale_date }}</p>
+<p><strong>Цена продажи:</strong> {{ sale.sale_price }}</p>
+<p><strong>Комиссия:</strong> {{ sale.commission }}</p>
+<p><strong>Статус:</strong> {{ sale.status }}</p>
+<a href="{{ url_for('sales_list') }}" class="btn btn-secondary">
+    <i class="fas fa-arrow-left"></i> Назад к продажам
+</a>
+{% endblock %}

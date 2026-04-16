@@ -2,7 +2,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 from flask import Flask, render_template, redirect, url_for, request, flash
-from models import db, Consignor, Report
+from models import db, Consignor, Report, Sale
 from config import Config
 
 from datetime import datetime
@@ -15,11 +15,21 @@ db.init_app(app)
 # Для тестирования
 def insert_test_data():
     consignors = [
-        {'id': 1, 'first_name': 'Иван', 'last_name': 'Соколов', 'middle_name': 'Алексеевич', 'email': 'ivan.sokolov@example.com', 'phone_number': '79001234567', 'passport_data': '4510 123456', 'INN': '123456789012'},
-        {'id': 2, 'first_name': 'Екатерина', 'last_name': 'Морозова', 'middle_name': 'Дмитриевна', 'email': 'ekaterina.morozova@example.com', 'phone_number': '79111234568', 'passport_data': '4511 234567', 'INN': '234567890123'},
-        {'id': 3, 'first_name': 'Дмитрий', 'last_name': 'Волков', 'middle_name': None, 'email': 'dmitry.volkov@example.com', 'phone_number': '79221234569', 'passport_data': '4512 345678', 'INN': '345678901234'},
-        {'id': 4, 'first_name': 'Анна', 'last_name': 'Зайцева', 'middle_name': 'Сергеевна', 'email': 'anna.zaytseva@example.com', 'phone_number': '79331234570', 'passport_data': '4513 456789', 'INN': '456789012345'},
-        {'id': 5, 'first_name': 'Михаил', 'last_name': 'Кузнецов', 'middle_name': 'Петрович', 'email': 'mikhail.kuznetsov@example.com', 'phone_number': '79441234571', 'passport_data': '4514 567890', 'INN': '567890123456'}
+        {'last_name': 'Соколов', 'first_name': 'Иван', 'middle_name': 'Алексеевич', 'id': 1,
+         'email': 'ivan.sokolov@example.com',
+         'phone_number': '79001234567', 'passport_data': '4510 123456', 'INN': '123456789012'},
+        {'last_name': 'Морозова', 'first_name': 'Екатерина', 'middle_name': 'Дмитриевна', 'id': 2,
+         'email': 'ekaterina.morozova@example.com',
+         'phone_number': '79111234568', 'passport_data': '4511 234567', 'INN': '234567890123'},
+        {'last_name': 'Волков', 'first_name': 'Дмитрий', 'middle_name': '', 'id': 3,
+         'email': 'dmitry.volkov@example.com',
+         'phone_number': '79221234569', 'passport_data': '4512 345678', 'INN': '345678901234'},
+        {'last_name': 'Зайцева', 'first_name': 'Анна', 'middle_name': 'Сергеевна', 'id': 4,
+         'email': 'anna.zaytseva@example.com',
+         'phone_number': '79331234570', 'passport_data': '4513 456789', 'INN': '456789012345'},
+        {'last_name': 'Кузнецов', 'first_name': 'Михаил', 'middle_name': 'Петрович', 'id': 5,
+         'email': 'mikhail.kuznetsov@example.com',
+         'phone_number': '79441234571', 'passport_data': '4514 567890', 'INN': '567890123456'}
     ]
 
     reports = [
@@ -35,6 +45,19 @@ def insert_test_data():
          'description': 'Отчет о продажах за год', 'consignor_id': 1},
     ]
 
+    sales = [
+        {'id': 1, 'sale_date': '2023-10-01', 'sale_price': 1500.00,
+         'commission': 150.00, 'status': 'Оплачено'},
+        {'id': 2, 'sale_date': '2023-10-02', 'sale_price': 3200.50,
+         'commission': 320.05, 'status': 'Ожидает'},
+        {'id': 3, 'sale_date': '2023-10-03', 'sale_price': 780.00,
+         'commission': 78.00, 'status': 'Оплачено'},
+        {'id': 4, 'sale_date': '2023-10-04', 'sale_price': 2100.00,
+         'commission': 210.00, 'status': 'Возврат'},
+        {'id': 5, 'sale_date': '2023-10-05', 'sale_price': 540.75,
+         'commission': 54.08, 'status': 'Оплачено'},
+    ]
+
     # Добавление комитентов
     for consignor_data in consignors:
         consignor = Consignor(
@@ -45,13 +68,8 @@ def insert_test_data():
             phone_number=consignor_data['phone_number'],
             passport_data=consignor_data['passport_data'],
             INN=consignor_data['INN'],
-            # sale_id=consignor_data['sale_id'], # None или ID продажи
-            # report_id=consignor_data['report_id'] # None или ID отчёта
         )
         db.session.add(consignor)
-
-    # Сохранение изменений в базе данных
-    db.session.commit()
 
     # Добавление отчетов
     for report_data in reports:
@@ -64,6 +82,17 @@ def insert_test_data():
         )
         db.session.add(report)
 
+    # Добавление продаж
+    for sale_data in sales:
+        sale = Sale(
+            sale_date=sale_data['sale_date'],
+            sale_price=sale_data['sale_price'],
+            commission=sale_data['commission'],
+            status=sale_data['status'],
+        )
+        db.session.add(sale)
+
+    # Сохранение изменений в базе данных
     db.session.commit()
 
 
@@ -95,16 +124,16 @@ def consignor_detail(consignor_id):
 def add_consignor():
     consignors = Consignor.query.all()
     if request.method == 'POST':
-        first_name = request.form['first_name']
         last_name = request.form['last_name']
+        first_name = request.form['first_name']
         middle_name = request.form['middle_name'] or 'Отсутствует'
         email = request.form['email']
         phone_number = request.form['phone_number']
         passport_data = request.form['passport_data']
         INN = request.form['INN']
         new_consignor = Consignor(
-            first_name=first_name,
             last_name=last_name,
+            first_name=first_name,
             middle_name=middle_name,
             email=email,
             phone_number=phone_number,
@@ -193,6 +222,52 @@ def delete_report(report_id):
     db.session.commit()
     flash('Отчёт успешно удалён!', 'success')
     return redirect(url_for('reports_list'))
+
+
+@app.route('/sales')
+def sales_list():
+    sales = Sale.query.all()
+    return render_template('sales_list.html', sales=sales)
+
+
+@app.route('/sale/<int:sale_id>')
+def sale_detail(sale_id):
+    sale = Sale.query.get_or_404(sale_id)
+    return render_template('sale_detail.html', sale=sale)
+
+
+@app.route('/add_sale', methods=['GET', 'POST'])
+def add_sale():
+    consignors = Consignor.query.all()
+    if request.method == 'POST':
+        sale_date = request.form['sale_date']
+        sale_price = request.form['sale_price']
+        commission = request.form['commission']
+        status = request.form['status']
+
+        # Convert date to a Python date object
+        sale_date = datetime.strptime(sale_date, '%Y-%m-%d')
+
+        new_sale = Sale(
+            sale_date=sale_date,
+            sale_price=sale_price,
+            commission=commission,
+            status=status
+        )
+        db.session.add(new_sale)
+        db.session.commit()
+        flash('Продажа успешно добавлена!', 'success')
+        return redirect(url_for('sales_list'))
+    return render_template('add_sale.html')
+
+
+@app.route('/delete_sale/<int:sale_id>', methods=['POST'])
+def delete_sale(sale_id):
+    sale = Sale.query.get_or_404(sale_id)
+    db.session.delete(sale)
+    db.session.commit()
+    flash('Продажа успешно удалена!', 'success')
+    return redirect(url_for('sales_list'))
 
 
 if __name__ == "__main__":
