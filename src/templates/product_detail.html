@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Товар</h1>
+<p><strong>Наименование:</strong> {{ product.product_name }}</p>
+<p><strong>Описание:</strong> {{ product.description }}</p>
+<p><strong>Дата доставки:</strong> {{ product.delivery_date }}</p>
+<p><strong>Срок реализации:</strong> {{ product.expiry_date }}</p>
+<p><strong>Цена:</strong> {{ product.price }}</p>
+
+<div class="actions d-flex flex-column align-items-start mb-3">
+    {% if report %}
+        <div class="d-flex align-items-center mb-2">
+            <p class="mb-0 mr-3"><strong>Отчёт:</strong> {{ report.number }}</p>
+            <a href="{{ url_for('report_detail', report_id=product.report_id) }}" class="btn btn-primary">
+                <i class="fas fa-file-alt"></i> Перейти к отчёту
+            </a>
+        </div>
+    {% endif %}
+    {% if sale %}
+        <div class="d-flex align-items-center">
+            <p class="mb-0 mr-3"><strong>Продажа:</strong> {{ sale.sale_date }}</p>
+            <a href="{{ url_for('sale_detail', sale_id=product.sale_id) }}" class="btn btn-primary">
+                <i class="fas fa-shopping-bag"></i> Перейти к продаже
+            </a>
+        </div>
+    {% endif %}
+    <a href="{{ url_for('products_list') }}" class="btn btn-primary">
+    <i class="fas fa-arrow-left"></i> Назад к товарам
+    </a>
+</div>
+{% endblock %}

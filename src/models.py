@@ -37,6 +37,5 @@ class Product(db.Model):
     delivery_date = db.Column(db.Date, nullable=False) # Дата доставки товара
     expiry_date = db.Column(db.Date, nullable=False) # Срок реализации товара
     price = db.Column(db.Float, nullable=False) # Цена товара
-    status = db.Column(db.String(50), nullable=False) # Статус товара
     report_id = db.Column(db.Integer, db.ForeignKey('report.id'), nullable=False) # Идентификатор отчёта
     sale_id = db.Column(db.Integer, db.ForeignKey('sale.id'), nullable=True)  # Идентификатор продажи
