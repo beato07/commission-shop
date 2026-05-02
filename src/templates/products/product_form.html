@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ "Редактирование товара" if product else "Добавление товара" }}</h1>
+
+<form method="POST">
+    <div class="form-group">
+        <label for="product_name">Наименование:</label>
+        <input type="text" id="product_name" name="product_name" class="form-control" required
+               value="{{ product.product_name if product else '' }}">
+    </div>
+    <div class="form-group">
+        <label for="description">Описание:</label>
+        <input type="text" id="description" name="description" class="form-control" required
+               value="{{ product.description if product else '' }}">
+    </div>
+    <div class="form-group">
+        <label for="delivery_date">Дата доставки:</label>
+        <input type="date" id="delivery_date" name="delivery_date" class="form-control" required
+               value="{{ product.delivery_date if product else '' }}">
+    </div>
+    <div class="form-group">
+        <label for="expiry_date">Срок реализации:</label>
+        <input type="date" id="expiry_date" name="expiry_date" class="form-control" required
+               value="{{ product.expiry_date if product else '' }}">
+    </div>
+    <div class="form-group">
+        <label for="price">Цена:</label>
+        <input type="text" id="price" name="price" class="form-control" required
+               value="{{ product.price if product else '' }}">
+    </div>
+    <div class="form-group">
+        <label for="report_id">Отчёт:</label>
+        <select id="report_id" name="report_id" class="form-control" required>
+            <option value="">Выбрать отчёт</option>
+            {% for report in reports %}
+            <option value="{{ report.id }}"
+                    {% if product and product.report_id == report.id %}selected{% endif %}>
+                {{ report.number }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="sale_id">Продажа:</label>
+        <select id="sale_id" name="sale_id" class="form-control">
+            <option value="">Выбрать продажу</option>
+            {% for sale in sales %}
+            <option value="{{ sale.id }}"
+                    {% if product and product.sale_id == sale.id %}selected{% endif %}>
+                {{ sale.sale_date }} {{ sale.status }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+    <button type="submit" class="btn btn-primary">{{ "Сохранить" if product else "Добавить" }}</button>
+    <a href="{{ url_for('products_list') }}" class="btn btn-secondary">
+        Отмена
+    </a>
+</form>
+{% endblock %}

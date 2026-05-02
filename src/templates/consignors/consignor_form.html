@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ "Редактирование комитента" if consignor else "Добавление комитента" }}</h1>
+
+<form method="POST">
+    <div class="form-group">
+        <label for="last_name">Фамилия:</label>
+        <input type="text" id="last_name" name="last_name" class="form-control" required
+               value="{{ consignor.last_name if consignor else '' }}">
+    </div>
+    <div class="form-group">
+        <label for="first_name">Имя:</label>
+        <input type="text" id="first_name" name="first_name" class="form-control" required
+               value="{{ consignor.first_name if consignor else '' }}">
+    </div>
+    <div class="form-group">
+        <label for="middle_name">Отчество:</label>
+        <input type="text" id="middle_name" name="middle_name" class="form-control"
+               value="{{ consignor.middle_name if consignor else '' }}">
+    </div>
+    <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" class="form-control" required
+               value="{{ consignor.email if consignor else '' }}">
+    </div>
+    <div class="form-group">
+        <label for="phone_number">Номер телефона:</label>
+        <input type="text" id="phone_number" name="phone_number" class="form-control" required
+               value="{{ consignor.phone_number if consignor else '' }}">
+    </div>
+    <div class="form-group">
+        <label for="passport_data">Паспортные данные:</label>
+        <input type="text" id="passport_data" name="passport_data" class="form-control" required
+               value="{{ consignor.passport_data if consignor else '' }}">
+    </div>
+    <div class="form-group">
+        <label for="INN">ИНН:</label>
+        <input type="text" id="INN" name="INN" class="form-control" required
+               value="{{ consignor.INN if consignor else '' }}">
+    </div>
+    <button type="submit" class="btn btn-primary">{{ "Сохранить" if consignor else "Добавить" }}</button>
+    <a href="{{ url_for('consignors_list') }}" class="btn btn-secondary">
+        Отмена
+    </a>
+</form>
+{% endblock %}

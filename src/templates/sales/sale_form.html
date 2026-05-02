@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>{{ "Редактирование продажи" if sale else "Добавление продажи" }}</h1>
+
+<form method="POST">
+    <div class="form-group">
+        <label for="sale_date">Дата продажи:</label>
+        <input type="date" id="sale_date" name="sale_date" class="form-control" required
+               value="{{ sale.sale_date if sale else '' }}">
+    </div>
+    <div class="form-group">
+        <label for="sale_price">Цена продажи:</label>
+        <input type="text" id="sale_price" name="sale_price" class="form-control" required
+               value="{{ sale.sale_price if sale else '' }}">
+    </div>
+    <div class="form-group">
+        <label for="commission">Комиссия:</label>
+        <input type="text" id="commission" name="commission" class="form-control" required
+               value="{{ sale.commission if sale else '' }}">
+    </div>
+    <div class="form-group">
+        <label for="status">Статус:</label>
+        <input type="text" id="status" name="status" class="form-control" required
+               value="{{ sale.status if sale else '' }}">
+    </div>
+    <button type="submit" class="btn btn-primary">{{ "Сохранить" if sale else "Добавить" }}</button>
+    <a href="{{ url_for('sales_list') }}" class="btn btn-secondary">
+        Отмена
+    </a>
+</form>
+{% endblock %}
